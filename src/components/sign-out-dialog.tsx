@@ -5,9 +5,14 @@ import { ConfirmDialog } from '@/components/confirm-dialog'
 interface SignOutDialogProps {
   open: boolean
   onOpenChange: (open: boolean) => void
+  onConfirm?: () => void
 }
 
-export function SignOutDialog({ open, onOpenChange }: SignOutDialogProps) {
+export function SignOutDialog({
+  open,
+  onOpenChange,
+  onConfirm,
+}: SignOutDialogProps) {
   const navigate = useNavigate()
   const location = useLocation()
   const { auth } = useAuthStore()
@@ -23,6 +28,8 @@ export function SignOutDialog({ open, onOpenChange }: SignOutDialogProps) {
     })
   }
 
+  const confirmHandler = onConfirm ?? handleSignOut
+
   return (
     <ConfirmDialog
       open={open}
@@ -31,7 +38,7 @@ export function SignOutDialog({ open, onOpenChange }: SignOutDialogProps) {
       desc='Are you sure you want to sign out? You will need to sign in again to access your account.'
       confirmText='Sign out'
       destructive
-      handleConfirm={handleSignOut}
+      handleConfirm={confirmHandler}
       className='sm:max-w-sm'
     />
   )
